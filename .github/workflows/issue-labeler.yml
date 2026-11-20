@@ -9,13 +9,17 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
 jobs:
   label-issues-policy:
+    name: Label issues (policy)
     runs-on: ubuntu-slim
-    # issues: write applies labels; contents: read checks out the issue templates
     permissions:
-      issues: write
-      contents: read
+      issues: write # apply labels to the issue
+      contents: read # check out the issue templates
 
     strategy:
       matrix:
@@ -40,11 +44,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   label-issues-default-policy:
+    name: Label issues (default policy)
     runs-on: ubuntu-latest
-    # issues: write applies labels; contents: read checks out the issue templates
     permissions:
-      issues: write
-      contents: read
+      issues: write # apply labels to the issue
+      contents: read # check out the issue templates
 
     strategy:
       matrix:
@@ -68,11 +72,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   label-issues-without-policy:
+    name: Label issues (without policy)
     runs-on: ubuntu-latest
-    # issues: write applies labels; contents: read checks out the issue templates
     permissions:
-      issues: write
-      contents: read
+      issues: write # apply labels to the issue
+      contents: read # check out the issue templates
 
     strategy:
       matrix:
